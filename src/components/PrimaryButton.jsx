@@ -2,10 +2,12 @@ import React from 'react';
 import {View, Text, TouchableOpacity, StyleSheet} from 'react-native';
 import colors from '../assets/colors';
 
-const PrimaryButton = ({text, textColor = 'white'}) => {
+const PrimaryButton = ({text, textColor = 'white', onPressed}) => {
   return (
     <TouchableOpacity
-      onPress={() => {}}
+      onPress={() => {
+        onPressed();
+      }}
       style={styles.view}
       activeOpacity={0.8}>
       <Text style={[styles.text, {color: textColor}]}>{text}</Text>
