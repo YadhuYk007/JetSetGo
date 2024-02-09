@@ -2,16 +2,17 @@ import React from 'react';
 import {Text, TouchableOpacity, View} from 'react-native';
 import Background from '../../components/Background';
 import PrimaryButton from '../../components/PrimaryButton';
-import colors from '../../assets/colors';
+import colors from '../../constants/colors';
 
 const Welcome = ({navigation}) => {
   return (
     <Background>
       <View style={{flex: 0.9, alignItems: 'center', justifyContent: 'center'}}>
-        <Text style={{fontSize: 30, color: 'green', fontWeight: 800}}>
+        <Text
+          style={{fontSize: 30, color: colors.PEACOCK_GREEN, fontWeight: 800}}>
           JetSetGo
         </Text>
-        <Text style={{color: colors.GREEN_4}}>
+        <Text style={{color: colors.PEACOCK_GREEN}}>
           simplifying flight bookings.
         </Text>
       </View>

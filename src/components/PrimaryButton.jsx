@@ -1,6 +1,6 @@
 import React from 'react';
 import {View, Text, TouchableOpacity, StyleSheet} from 'react-native';
-import colors from '../assets/colors';
+import colors from '../constants/colors';
 
 const PrimaryButton = ({text, textColor = 'white', onPressed}) => {
   return (
@@ -17,7 +17,7 @@ const PrimaryButton = ({text, textColor = 'white', onPressed}) => {
 
 const styles = StyleSheet.create({
   view: {
-    backgroundColor: colors.GREEN_4,
+    backgroundColor: colors.PEACOCK_GREEN,
     width: '80%',
     alignSelf: 'center',
     borderRadius: 13,

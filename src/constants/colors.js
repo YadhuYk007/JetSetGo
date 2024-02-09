@@ -3,6 +3,7 @@ export default {
   GREEN_2: '#D4E7C5',
   GREEN_3: '#BFD8AF',
   GREEN_4: '#99BC85',
-  LIGHT_GRAY: '#f6f6f6',
+  PEACOCK_GREEN: '#053B50',
+  LIGHT_GRAY: '#F0F0F0',
   GRAY: '#6c6c6c',
 };

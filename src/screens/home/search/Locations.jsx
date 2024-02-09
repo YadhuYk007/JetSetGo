@@ -1,7 +1,7 @@
 import React from 'react';
 import {Text, TextInput, View} from 'react-native';
 import Background from '../../../components/Background';
-import colors from '../../../assets/colors';
+import colors from '../../../constants/colors';
 
 const Locations = () => {
   return (

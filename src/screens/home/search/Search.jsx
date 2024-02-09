@@ -1,7 +1,7 @@
 import React from 'react';
 import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import Background from '../../../components/Background';
-import colors from '../../../assets/colors';
+import colors from '../../../constants/colors';
 import screenNames from '../../../constants/screenNames';
 
 const Search = ({navigation}) => {
@@ -42,21 +42,22 @@ const Search = ({navigation}) => {
 const styles = StyleSheet.create({
   card: {
     flex: 0.25,
-    backgroundColor: colors.GREEN_1,
+    backgroundColor: colors.PEACOCK_GREEN,
     marginTop: 25,
     marginHorizontal: 10,
     justifyContent: 'space-evenly',
+    borderRadius: 8,
   },
   list: {flex: 0.75},
   title: {
     fontSize: 30,
-    color: 'green',
+    color: colors.PEACOCK_GREEN,
     fontWeight: '800',
     alignSelf: 'center',
     paddingTop: 20,
   },
   info: {
-    color: colors.GREEN_4,
+    color: colors.PEACOCK_GREEN,
     textAlign: 'center',
   },
   box: {
