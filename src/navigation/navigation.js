@@ -5,6 +5,8 @@ import Welcome from '../screens/welcome/Welcome';
 import TabNav from './tabNav';
 import screenNames from '../constants/screenNames';
 import Locations from '../screens/home/search/Locations';
+import FlightInfo from '../screens/home/search/bookFlight/FlightInfo';
+import BookingConfirmation from '../screens/home/search/bookFlight/bookingConfirm';
 
 const MainStack = createNativeStackNavigator();
 
@@ -29,6 +31,20 @@ const MainStachScreen = () => {
         <MainStack.Screen
           component={Locations}
           name={screenNames.LOCATIONS}
+          options={{
+            headerShown: false,
+          }}
+        />
+        <MainStack.Screen
+          component={FlightInfo}
+          name={screenNames.FLIGHT_INFO}
+          options={{
+            headerShown: false,
+          }}
+        />
+        <MainStack.Screen
+          component={BookingConfirmation}
+          name={screenNames.FLIGHT_CONFIRM}
           options={{
             headerShown: false,
           }}

@@ -24,10 +24,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   text: {
+    fontFamily: 'DMSans-Bold',
     paddingHorizontal: 20,
     paddingVertical: 15,
     fontSize: 16,
-    fontWeight: 700,
   },
 });
 

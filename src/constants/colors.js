@@ -4,6 +4,7 @@ export default {
   GREEN_3: '#BFD8AF',
   GREEN_4: '#99BC85',
   PEACOCK_GREEN: '#053B50',
-  LIGHT_GRAY: '#F0F0F0',
+  LIGHT_GRAY: '#B4B4B8',
   GRAY: '#6c6c6c',
+  BLACK: '#000000',
 };

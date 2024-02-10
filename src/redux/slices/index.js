@@ -1,7 +1,12 @@
 import {combineReducers} from 'redux';
 import actions from './actions';
+import bookingSlice from './bookingSlice';
+import flightsSlice from './flightsSlice';
 
-const reducer = combineReducers({});
+const reducer = combineReducers({
+  flights: flightsSlice,
+  bookings: bookingSlice,
+});
 
 export const resetApp = () => {
   return {

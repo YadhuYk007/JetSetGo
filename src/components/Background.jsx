@@ -7,7 +7,6 @@ const Background = ({children}) => {
     <View
       style={{
         flex: 1,
-        backgroundColor: colors.LIGHT_GRAY,
       }}>
       <StatusBar
         barStyle="dark-content"

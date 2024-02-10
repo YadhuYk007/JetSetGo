@@ -1,7 +1,7 @@
 import {createSlice} from '@reduxjs/toolkit';
 
 const initialState = {
-  data: {},
+  flightData: [],
   selectedFlight: {},
 };
 
@@ -10,7 +10,7 @@ export const flights = createSlice({
   initialState,
   reducers: {
     setData: (state, action) => {
-      state.data = action.payload;
+      state.flightData = action.payload;
     },
     setSelectedFlightData: (state, action) => {
       state.selectedFlight = action.payload;

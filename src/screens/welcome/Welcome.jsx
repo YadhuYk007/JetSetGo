@@ -1,5 +1,5 @@
 import React from 'react';
-import {Text, TouchableOpacity, View} from 'react-native';
+import {Image, StyleSheet, Text, View} from 'react-native';
 import Background from '../../components/Background';
 import PrimaryButton from '../../components/PrimaryButton';
 import colors from '../../constants/colors';
@@ -7,14 +7,13 @@ import colors from '../../constants/colors';
 const Welcome = ({navigation}) => {
   return (
     <Background>
-      <View style={{flex: 0.9, alignItems: 'center', justifyContent: 'center'}}>
-        <Text
-          style={{fontSize: 30, color: colors.PEACOCK_GREEN, fontWeight: 800}}>
-          JetSetGo
-        </Text>
-        <Text style={{color: colors.PEACOCK_GREEN}}>
-          simplifying flight bookings.
-        </Text>
+      <View style={styles.main}>
+        <Image
+          style={{height: 100, width: 100}}
+          source={require('../../assets/icons/logo.png')}
+        />
+        <Text style={styles.title}>JetSetGo</Text>
+        <Text style={styles.info}>simplifying flight bookings.</Text>
       </View>
       <View style={{flex: 0.1}}>
         <PrimaryButton
@@ -28,5 +27,19 @@ const Welcome = ({navigation}) => {
     </Background>
   );
 };
+
+const styles = StyleSheet.create({
+  main: {
+    flex: 0.9,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  title: {
+    fontSize: 40,
+    color: colors.PEACOCK_GREEN,
+    fontFamily: 'DMSans-Bold',
+  },
+  info: {color: colors.PEACOCK_GREEN, fontFamily: 'DMSans-Regular'},
+});
 
 export default Welcome;
