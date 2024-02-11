@@ -28,7 +28,7 @@ const Welcome = ({navigation}) => {
             dispatch(setSource('Source'));
             dispatch(setDestination('Destination'));
             dispatch(setFilter([]));
-            dispatch(setSortType('init'));
+            dispatch(setSortType('none'));
             navigation.navigate('Home');
           }}
         />

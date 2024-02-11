@@ -1,11 +1,18 @@
 import React from 'react';
-import {ScrollView, StyleSheet, Text, View} from 'react-native';
+import {
+  ScrollView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import Background from '../../../../components/Background';
 import colors from '../../../../constants/colors';
 import {useSelector} from 'react-redux';
 import PrimaryButton from '../../../../components/PrimaryButton';
 import screenNames from '../../../../constants/screenNames';
 import strings from '../../../../constants/strings';
+import {formattedDate} from '../../../../utils/time';
 
 const BookingConfirmation = ({navigation}) => {
   const flightData = useSelector(state => state.flights.selectedFlight);
@@ -13,7 +20,15 @@ const BookingConfirmation = ({navigation}) => {
     <Background>
       <ScrollView>
         <View style={{marginHorizontal: 10}}>
-          <Text style={styles.title}>{strings.BOOKING_CONFIRM}</Text>
+          <View style={styles.header}>
+            <Text style={styles.title}>{strings.BOOKING_CONFIRM}</Text>
+            <TouchableOpacity
+              onPress={() => {
+                navigation.navigate(screenNames.HOME);
+              }}>
+              <Text style={styles.cancel}>Cancel</Text>
+            </TouchableOpacity>
+          </View>
           <View style={styles.card}>
             <View style={styles.cityView}>
               <Text
@@ -41,10 +56,9 @@ const BookingConfirmation = ({navigation}) => {
             style={
               styles.info
             }>{`Aircraft - ${flightData.displayData.airlines[0].airlineName} ${flightData.displayData.airlines[0].airlineCode} ${flightData.displayData.airlines[0].flightNumber}`}</Text>
-          <Text
-            style={
-              styles.info
-            }>{`Travelling on ${flightData.displayData.source.depTime}`}</Text>
+          <Text style={styles.info}>{`Travelling on ${formattedDate(
+            new Date(flightData.displayData.source.depTime),
+          )}`}</Text>
           <Text style={styles.info}>{strings.PASSENGER}</Text>
 
           <Text
@@ -64,11 +78,21 @@ const BookingConfirmation = ({navigation}) => {
 };
 
 const styles = StyleSheet.create({
+  cancel: {
+    color: 'red',
+    fontSize: 16,
+    fontFamily: 'DMSans-Bold',
+  },
   title: {
     color: colors.PEACOCK_GREEN,
     fontSize: 24,
-    marginTop: 30,
     fontFamily: 'DMSans-Bold',
+  },
+  header: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginTop: 30,
   },
   flightName: {
     fontFamily: 'DMSans-Bold',

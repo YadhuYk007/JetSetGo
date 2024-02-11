@@ -18,7 +18,7 @@ import {useDispatch, useSelector} from 'react-redux';
 const FlightList = ({onItemPressed, setFilterVisible, onSortVisible}) => {
   const dispatch = useDispatch();
   const data = useSelector(state => state.flights.flightData);
-  const [flightData, setFlightData] = useState();
+  const [flightData, setFlightData] = useState([]);
   const source = useSelector(state => state.bookings.source);
   const destination = useSelector(state => state.bookings.destination);
   const sort = useSelector(state => state.flights.sort);
@@ -30,26 +30,23 @@ const FlightList = ({onItemPressed, setFilterVisible, onSortVisible}) => {
 
   useEffect(() => {
     sort === 'init' ? null : sortData();
-    filterData();
+    console.log(filter);
+    filter.length > 0 ? filterData() : null;
   }, [sort, filter]);
 
   const sortData = () => {
-    setFlightData(prevData => {
-      const unsorted = [...prevData];
-      let sorted = [];
-      if (sort === 'ascending') {
-        sorted = unsorted.sort(
-          (a, b) => parseFloat(a.fare) - parseFloat(b.fare),
-        );
-      } else if (sort === 'descending') {
-        sorted = unsorted.sort(
-          (a, b) => parseFloat(b.fare) - parseFloat(a.fare),
-        );
-      } else if (sort === 'none') {
-        sorted = data;
-      }
-      return sorted;
-    });
+    const unsorted = [...data];
+    if (sort === 'ascending') {
+      setFlightData(
+        unsorted.sort((a, b) => parseFloat(a.fare) - parseFloat(b.fare)),
+      );
+    } else if (sort === 'descending') {
+      setFlightData(
+        unsorted.sort((a, b) => parseFloat(b.fare) - parseFloat(a.fare)),
+      );
+    } else if (sort === 'none') {
+      setFlightData(data);
+    }
   };
 
   const filterData = () => {
