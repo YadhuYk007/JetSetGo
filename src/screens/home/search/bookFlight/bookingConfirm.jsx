@@ -1,10 +1,11 @@
 import React from 'react';
-import {Image, ScrollView, StyleSheet, Text, View} from 'react-native';
+import {ScrollView, StyleSheet, Text, View} from 'react-native';
 import Background from '../../../../components/Background';
 import colors from '../../../../constants/colors';
 import {useSelector} from 'react-redux';
 import PrimaryButton from '../../../../components/PrimaryButton';
 import screenNames from '../../../../constants/screenNames';
+import strings from '../../../../constants/strings';
 
 const BookingConfirmation = ({navigation}) => {
   const flightData = useSelector(state => state.flights.selectedFlight);
@@ -12,13 +13,9 @@ const BookingConfirmation = ({navigation}) => {
     <Background>
       <ScrollView>
         <View style={{marginHorizontal: 10}}>
-          <Text style={styles.title}>Confirm Booking</Text>
+          <Text style={styles.title}>{strings.BOOKING_CONFIRM}</Text>
           <View style={styles.card}>
-            <View
-              style={{
-                flexDirection: 'row',
-                justifyContent: 'space-between',
-              }}>
+            <View style={styles.cityView}>
               <Text
                 style={
                   styles.info
@@ -28,19 +25,8 @@ const BookingConfirmation = ({navigation}) => {
                   styles.info
                 }>{`${flightData.displayData.destination.airport.cityName} (${flightData.displayData.destination.airport.airportCode})`}</Text>
             </View>
-            <View
-              style={{
-                width: 20,
-                height: 2,
-                backgroundColor: colors.BLACK,
-                alignSelf: 'center',
-              }}
-            />
-            <View
-              style={{
-                flexDirection: 'row',
-                justifyContent: 'space-between',
-              }}>
+            <View style={styles.saperator} />
+            <View style={styles.portView}>
               <Text
                 style={
                   styles.minInfo
@@ -59,7 +45,7 @@ const BookingConfirmation = ({navigation}) => {
             style={
               styles.info
             }>{`Travelling on ${flightData.displayData.source.depTime}`}</Text>
-          <Text style={styles.info}>{`No of Passengers Travelling - 1`}</Text>
+          <Text style={styles.info}>{strings.PASSENGER}</Text>
 
           <Text
             style={styles.fare}>{`Total Amount : Rs${flightData.fare}`}</Text>
@@ -128,6 +114,20 @@ const styles = StyleSheet.create({
     fontFamily: 'DMSans-Bold',
     fontSize: 20,
     paddingBottom: 10,
+  },
+  cityView: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+  saperator: {
+    width: 20,
+    height: 2,
+    backgroundColor: colors.BLACK,
+    alignSelf: 'center',
+  },
+  portView: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
   },
 });
 

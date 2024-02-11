@@ -3,7 +3,7 @@ import {createSlice} from '@reduxjs/toolkit';
 const initialState = {
   flightData: [],
   selectedFlight: {},
-  sort: 'none',
+  sort: 'init',
   filter: [],
 };
 

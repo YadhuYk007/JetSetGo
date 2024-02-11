@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, {useEffect, useState} from 'react';
 import {Modal, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import colors from '../../constants/colors';
@@ -8,32 +9,26 @@ import {setFilter} from '../../redux/slices/flightsSlice';
 
 const FilterModal = ({visibility, onApply}) => {
   const data = useSelector(state => state.flights.flightData);
-  let checkboxData = null;
-  let selectedValues = [];
-  let items = [];
   const [airlines, setAirlines] = useState([]);
   const dispatch = useDispatch();
 
   useEffect(() => {
+    /*** for getting all possible airline name from the data ***/
+    const items = [];
     data.forEach(element => {
-      let name = element.displayData.airlines[0].airlineName;
-      let obj = {};
-      obj.name = name;
-      obj.is_active = false;
+      const name = element.displayData.airlines[0].airlineName;
       if (!items.some(obj => obj.name === name)) {
-        items.push(obj);
+        items.push({name, is_active: false, id: items.length});
       }
     });
     setAirlines(items);
   }, []);
 
-  const toggleCheckbox = (id, index) => {
-    selectedValues.includes(id)
-      ? selectedValues.splice(selectedValues.indexOf(id), 1)
-      : selectedValues.push(id);
-    checkboxData = [...airlines];
-    checkboxData[index].is_active = !checkboxData[index].is_active;
-    setAirlines(checkboxData);
+  const toggleCheckbox = id => {
+    const updatedAirlines = airlines.map(item =>
+      item.id === id ? {...item, is_active: !item.is_active} : item,
+    );
+    setAirlines(updatedAirlines);
   };
 
   return (
@@ -46,28 +41,24 @@ const FilterModal = ({visibility, onApply}) => {
           <Text style={styles.info}>{`Airlines`}</Text>
           <View style={{marginVertical: 10}}>
             {airlines.length > 0 &&
-              airlines.map((item, i) => {
-                return (
-                  <TouchableOpacity
-                    style={{flexDirection: 'row', alignItems: 'center'}}
-                    onPress={() => {
-                      toggleCheckbox(item, i);
+              airlines.map(item => (
+                <TouchableOpacity
+                  style={{flexDirection: 'row', alignItems: 'center'}}
+                  onPress={() => toggleCheckbox(item.id)}
+                  key={item.id}>
+                  <CheckBox
+                    value={item.is_active}
+                    tintColors={{
+                      true: colors.PEACOCK_GREEN,
+                      false: colors.PEACOCK_GREEN,
                     }}
-                    key={i}>
-                    <CheckBox
-                      value={item.is_active}
-                      tintColors={{
-                        true: colors.PEACOCK_GREEN,
-                        false: colors.PEACOCK_GREEN,
-                      }}
-                      style={{
-                        transform: [{scaleX: 0.7}, {scaleY: 0.7}],
-                      }}
-                    />
-                    <Text style={{color: colors.BLACK}}>{item.name}</Text>
-                  </TouchableOpacity>
-                );
-              })}
+                    style={{
+                      transform: [{scaleX: 0.7}, {scaleY: 0.7}],
+                    }}
+                  />
+                  <Text style={{color: colors.BLACK}}>{item.name}</Text>
+                </TouchableOpacity>
+              ))}
           </View>
           <PrimaryButton
             text={'Apply'}

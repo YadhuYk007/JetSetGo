@@ -26,7 +26,7 @@ const TabNav = () => {
         name={screenNames.SEARCH}
         options={{
           tabBarActiveTintColor: 'white',
-          tabBarLabelStyle: {fontWeight: '600', fontSize: 12},
+          tabBarLabelStyle: {fontFamily: 'DMSans-Bold', fontSize: 12},
           tabBarIcon: ({focused}) => {
             return focused ? (
               <Image
@@ -47,7 +47,7 @@ const TabNav = () => {
         name={screenNames.BOOKING}
         options={{
           tabBarActiveTintColor: 'white',
-          tabBarLabelStyle: {fontWeight: '600', fontSize: 12},
+          tabBarLabelStyle: {fontFamily: 'DMSans-Bold', fontSize: 12},
           tabBarIcon: ({focused}) => {
             return focused ? (
               <Image

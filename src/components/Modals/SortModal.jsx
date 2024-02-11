@@ -17,6 +17,8 @@ const SortModal = ({visibility, onApply}) => {
   const sort = useSelector(state => state.flights.sort);
 
   const setInitial = () => {
+    /***  setting initial value, if user has set any sort previously, it ill be set ***/
+
     if (sort == undefined || sort == 'none') {
       return 0;
     } else if (sort == 'ascending') {

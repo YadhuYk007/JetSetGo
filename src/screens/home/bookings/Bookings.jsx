@@ -10,18 +10,13 @@ import {
 import Background from '../../../components/Background';
 import {useDispatch, useSelector} from 'react-redux';
 import colors from '../../../constants/colors';
+import strings from '../../../constants/strings';
 
 const Bookings = () => {
   const data = useSelector(data => data.bookings.bookings);
   const renderItem = ({item}) => {
     return (
-      <TouchableOpacity
-        activeOpacity={0.8}
-        style={styles.itemView}
-        onPress={() => {
-          //dispatch(setSelectedFlightData(item));
-          //navigation.navigate(screenNames.FLIGHT_INFO);
-        }}>
+      <TouchableOpacity activeOpacity={0.8} style={styles.itemView}>
         <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
           <Text style={styles.infoHeader}>
             {`${item.displayData.source.airport.cityName}(${item.displayData.source.airport.airportCode})`}
@@ -62,16 +57,10 @@ const Bookings = () => {
           data={data}
           renderItem={item => renderItem(item)}
           ItemSeparatorComponent={() => {
-            return (
-              <View
-                style={{
-                  width: '80%',
-                  backgroundColor: colors.LIGHT_GRAY,
-                  height: 1,
-                  alignSelf: 'center',
-                }}
-              />
-            );
+            return <View style={styles.saperator} />;
+          }}
+          ListEmptyComponent={() => {
+            return <Text style={styles.empty}>{strings.NO_BOOKING}</Text>;
           }}
         />
       </View>
@@ -115,6 +104,19 @@ const styles = StyleSheet.create({
   itemView: {
     padding: 20,
     backgroundColor: 'white',
+  },
+  empty: {
+    color: colors.BLACK,
+    marginTop: 100,
+    alignSelf: 'center',
+    fontFamily: 'DMSans-Regular',
+    fontSize: 18,
+  },
+  saperator: {
+    width: '80%',
+    backgroundColor: colors.LIGHT_GRAY,
+    height: 1,
+    alignSelf: 'center',
   },
 });
 

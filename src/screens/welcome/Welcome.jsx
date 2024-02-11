@@ -3,8 +3,12 @@ import {Image, StyleSheet, Text, View} from 'react-native';
 import Background from '../../components/Background';
 import PrimaryButton from '../../components/PrimaryButton';
 import colors from '../../constants/colors';
+import {setDestination, setSource} from '../../redux/slices/bookingSlice';
+import {useDispatch} from 'react-redux';
+import strings from '../../constants/strings';
 
 const Welcome = ({navigation}) => {
+  const dispatch = useDispatch();
   return (
     <Background>
       <View style={styles.main}>
@@ -12,14 +16,16 @@ const Welcome = ({navigation}) => {
           style={{height: 100, width: 100}}
           source={require('../../assets/icons/logo.png')}
         />
-        <Text style={styles.title}>JetSetGo</Text>
-        <Text style={styles.info}>simplifying flight bookings.</Text>
+        <Text style={styles.title}>{strings.NAME}</Text>
+        <Text style={styles.info}>{strings.QUOTE}</Text>
       </View>
       <View style={{flex: 0.1}}>
         <PrimaryButton
           text={'Start Booking'}
           textColor="white"
           onPressed={() => {
+            dispatch(setSource('Source'));
+            dispatch(setDestination('Destination'));
             navigation.navigate('Home');
           }}
         />
