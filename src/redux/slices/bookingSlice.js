@@ -2,21 +2,39 @@ import {createSlice} from '@reduxjs/toolkit';
 
 const initialState = {
   bookings: [],
+  source: 'Source',
+  destination: 'Destination',
+  type: '',
 };
 
 export const bookings = createSlice({
-  name: 'flights',
+  name: 'bookings',
   initialState,
   reducers: {
     addBookingData: (state, action) => {
-      state.bookings = [...bookings, action.payload];
+      state.bookings = [...state.bookings, action.payload];
     },
     clearBookingData: state => {
       state.bookings = [];
     },
+    setSource: (state, action) => {
+      state.source = action.payload;
+    },
+    setDestination: (state, action) => {
+      state.destination = action.payload;
+    },
+    setType: (state, action) => {
+      state.type = action.payload;
+    },
   },
 });
 
-export const {addBookingData, clearBookingData} = bookings.actions;
+export const {
+  addBookingData,
+  clearBookingData,
+  setDestination,
+  setSource,
+  setType,
+} = bookings.actions;
 
 export default bookings.reducer;

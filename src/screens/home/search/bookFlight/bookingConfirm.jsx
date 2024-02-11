@@ -4,8 +4,9 @@ import Background from '../../../../components/Background';
 import colors from '../../../../constants/colors';
 import {useSelector} from 'react-redux';
 import PrimaryButton from '../../../../components/PrimaryButton';
+import screenNames from '../../../../constants/screenNames';
 
-const BookingConfirmation = () => {
+const BookingConfirmation = ({navigation}) => {
   const flightData = useSelector(state => state.flights.selectedFlight);
   return (
     <Background>
@@ -58,13 +59,19 @@ const BookingConfirmation = () => {
             style={
               styles.info
             }>{`Travelling on ${flightData.displayData.source.depTime}`}</Text>
+          <Text style={styles.info}>{`No of Passengers Travelling - 1`}</Text>
 
           <Text
             style={styles.fare}>{`Total Amount : Rs${flightData.fare}`}</Text>
         </View>
       </ScrollView>
       <View style={{marginBottom: 10}}>
-        <PrimaryButton text={'Confirm'} />
+        <PrimaryButton
+          text={'Confirm'}
+          onPressed={() => {
+            navigation.navigate(screenNames.CONFIRMATION);
+          }}
+        />
       </View>
     </Background>
   );

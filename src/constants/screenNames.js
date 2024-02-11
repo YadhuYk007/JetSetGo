@@ -6,4 +6,5 @@ export default {
   FLIGHT_INFO: 'Flight details',
   FLIGHT_CONFIRM: 'Flight Confirm',
   LOCATIONS: 'Locations',
+  CONFIRMATION: 'Confirmation',
 };

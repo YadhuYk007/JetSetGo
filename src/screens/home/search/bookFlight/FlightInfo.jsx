@@ -5,6 +5,7 @@ import colors from '../../../../constants/colors';
 import {useSelector} from 'react-redux';
 import PrimaryButton from '../../../../components/PrimaryButton';
 import screenNames from '../../../../constants/screenNames';
+import {formattedDate} from '../../../../utils/time';
 
 const FlightInfo = ({navigation}) => {
   const flightData = useSelector(state => state.flights.selectedFlight);
@@ -56,10 +57,9 @@ const FlightInfo = ({navigation}) => {
                   style={
                     styles.info
                   }>{`Terminal ${flightData.displayData.source.airport.terminal}`}</Text>
-                <Text
-                  style={
-                    styles.info
-                  }>{`Depart Time ${flightData.displayData.source.depTime}`}</Text>
+                <Text style={styles.info}>{`Depart Time ${formattedDate(
+                  new Date(flightData.displayData.source.depTime),
+                )}`}</Text>
               </View>
             </View>
           </View>
@@ -92,10 +92,9 @@ const FlightInfo = ({navigation}) => {
                   style={
                     styles.info
                   }>{`Terminal ${flightData.displayData.destination.airport.terminal}`}</Text>
-                <Text
-                  style={
-                    styles.info
-                  }>{`Arrival Time ${flightData.displayData.destination.arrTime}`}</Text>
+                <Text style={styles.info}>{`Arrival Time ${formattedDate(
+                  new Date(flightData.displayData.destination.arrTime),
+                )}`}</Text>
               </View>
             </View>
           </View>

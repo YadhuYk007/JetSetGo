@@ -3,6 +3,8 @@ import {createSlice} from '@reduxjs/toolkit';
 const initialState = {
   flightData: [],
   selectedFlight: {},
+  sort: 'none',
+  filter: [],
 };
 
 export const flights = createSlice({
@@ -15,9 +17,16 @@ export const flights = createSlice({
     setSelectedFlightData: (state, action) => {
       state.selectedFlight = action.payload;
     },
+    setSortType: (state, action) => {
+      state.sort = action.payload;
+    },
+    setFilter: (state, action) => {
+      state.filter = action.payload;
+    },
   },
 });
 
-export const {setData, setSelectedFlightData} = flights.actions;
+export const {setData, setSelectedFlightData, setSortType, setFilter} =
+  flights.actions;
 
 export default flights.reducer;

@@ -7,6 +7,7 @@ import screenNames from '../constants/screenNames';
 import Locations from '../screens/home/search/Locations';
 import FlightInfo from '../screens/home/search/bookFlight/FlightInfo';
 import BookingConfirmation from '../screens/home/search/bookFlight/bookingConfirm';
+import Confirmation from '../screens/home/search/bookFlight/Confirmation';
 
 const MainStack = createNativeStackNavigator();
 
@@ -47,6 +48,14 @@ const MainStachScreen = () => {
           name={screenNames.FLIGHT_CONFIRM}
           options={{
             headerShown: false,
+          }}
+        />
+        <MainStack.Screen
+          component={Confirmation}
+          name={screenNames.CONFIRMATION}
+          options={{
+            headerShown: false,
+            gestureEnabled: false,
           }}
         />
       </MainStack.Navigator>

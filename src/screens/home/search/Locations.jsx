@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import {
   FlatList,
   StyleSheet,
@@ -9,34 +9,37 @@ import {
 } from 'react-native';
 import Background from '../../../components/Background';
 import colors from '../../../constants/colors';
-import {useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
+import {setDestination, setSource} from '../../../redux/slices/bookingSlice';
 
-const Locations = () => {
+const Locations = ({navigation}) => {
   const data = useSelector(state => state.flights.flightData);
+  const type = useSelector(state => state.bookings.type);
   const [text, setText] = useState('');
   const [cityData, setCityData] = useState([]);
-  let cities = [];
+  const cities = useRef([]);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     data.forEach(element => {
       let city1 = element.displayData.source.airport.cityName;
       let city2 = element.displayData.destination.airport.cityName;
-      cities.includes(city1)
-        ? cities.includes(city2)
+      cities.current.includes(city1)
+        ? cities.current.includes(city2)
           ? null
-          : cities.push(city2)
-        : cities.push(city1);
+          : cities.current.push(city2)
+        : cities.current.push(city1);
     });
   }, []);
 
   useEffect(() => {
     if (text.length > 0) {
-      let filterCitiesByCharacter = cities.filter(city =>
-        city.toLowerCase().includes(text),
+      let filterCitiesByCharacter = cities.current.filter(city =>
+        city.includes(text),
       );
-
-      console.log(filterCitiesByCharacter);
       setCityData(filterCitiesByCharacter);
+    } else {
+      setCityData([]);
     }
   }, [text]);
 
@@ -54,7 +57,18 @@ const Locations = () => {
           data={cityData}
           renderItem={item => {
             return (
-              <TouchableOpacity activeOpacity={0.8} style={styles.itemView}>
+              <TouchableOpacity
+                activeOpacity={0.8}
+                style={styles.itemView}
+                onPress={() => {
+                  if (type === 'source') {
+                    dispatch(setSource(item.item));
+                  } else if (type === 'destination') {
+                    dispatch(setDestination(item.item));
+                  }
+                  setText(item.item);
+                  navigation.goBack();
+                }}>
                 <Text style={styles.itemText}>{item.item}</Text>
               </TouchableOpacity>
             );

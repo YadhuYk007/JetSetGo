@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   FlatList,
   Image,
@@ -13,106 +13,187 @@ import screenNames from '../../../constants/screenNames';
 import {GetFlights} from '../../../api';
 import {useDispatch, useSelector} from 'react-redux';
 import {setSelectedFlightData} from '../../../redux/slices/flightsSlice';
+import ListItem from '../../../components/ListItem';
+import FilterModal from '../../../components/Modals/FilterModal';
+import SortModal from '../../../components/Modals/SortModal';
+import {formattedDate} from '../../../utils/time';
+import {setType} from '../../../redux/slices/bookingSlice';
 
 const Search = ({navigation}) => {
   const data = useSelector(state => state.flights.flightData);
+  const sort = useSelector(state => state.flights.sort);
+  const filter = useSelector(state => state.flights.filter);
+  const source = useSelector(state => state.bookings.source);
+  const destination = useSelector(state => state.bookings.destination);
   const dispatch = useDispatch();
+  const [filterVisible, setFilterVisible] = useState(false);
+  const [sortVisible, setSortVisible] = useState(false);
+  const [flightData, setFlightData] = useState(data);
+
   useEffect(() => {
     GetFlights();
   }, []);
 
-  const renderItem = ({item}) => {
-    return (
-      <TouchableOpacity
-        activeOpacity={0.8}
-        style={styles.itemView}
-        onPress={() => {
-          dispatch(setSelectedFlightData(item));
-          navigation.navigate(screenNames.FLIGHT_INFO);
-        }}>
-        <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
-          <Text style={styles.infoHeader}>
-            {`${item.displayData.source.airport.cityName}(${item.displayData.source.airport.airportCode})`}
-          </Text>
-          <Text style={styles.infoHeader}>
-            {`${item.displayData.destination.airport.cityName}(${item.displayData.destination.airport.airportCode})`}
-          </Text>
-        </View>
-        <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
-          <Text style={styles.info}>{item.displayData.source.depTime}</Text>
-          <Text style={styles.info}>
-            {item.displayData.destination.arrTime}
-          </Text>
-        </View>
-        <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
-          <View style={{flexDirection: 'row', alignItems: 'center'}}>
-            <View style={{paddingRight: 5}}>
-              <Image
-                style={{height: 15, width: 15}}
-                source={require('../../../assets/icons/plane.png')}
-              />
-            </View>
-            <View>
-              <Text style={styles.infoHeader}>
-                {item.displayData.airlines[0].airlineName}
-              </Text>
-              <Text style={styles.info}>
-                {item.displayData.airlines[0].flightNumber}
-              </Text>
-            </View>
-          </View>
+  useEffect(() => {
+    setFlightData(data);
+  }, [data]);
 
-          <Text style={styles.infoHeader}>{`Rs ${item.fare}/-`}</Text>
-        </View>
-      </TouchableOpacity>
+  useEffect(() => {
+    sortData();
+  }, [sort]);
+
+  useEffect(() => {
+    filter.length > 0 ? filterData() : null;
+  }, [filter]);
+
+  const sortData = () => {
+    const unsorted = [...data];
+    if (sort === 'ascending') {
+      setFlightData(
+        unsorted.sort((a, b) => parseFloat(a.fare) - parseFloat(b.fare)),
+      );
+    } else if (sort === 'descending') {
+      setFlightData(
+        unsorted.sort((a, b) => parseFloat(b.fare) - parseFloat(a.fare)),
+      );
+    } else if (sort === undefined || sort === 'none') {
+      setFlightData(unsorted);
+    }
+  };
+
+  const filterData = () => {
+    const unfiltered = [...filter];
+    const filteredNames = unfiltered
+      .filter(item => item.is_active)
+      .map(item => item.name);
+    const aircrafts = [...flightData];
+    const filteredArray = aircrafts.filter(item =>
+      filteredNames.includes(item.displayData.airlines[0].airlineName),
     );
+    setFlightData(filteredArray);
+  };
+
+  const startSearch = () => {
+    const aircrafts = [...flightData];
+    const filteredArray = aircrafts.filter(
+      item =>
+        item.displayData.source.airport.cityName === source &&
+        item.displayData.destination.airport.cityName === destination,
+    );
+    setFlightData(filteredArray);
   };
 
   return (
     <Background>
       <Text style={styles.title}>JetSetGo</Text>
       <View style={styles.card}>
-        <View>
+        <View style={{flex: 0.9}}>
           <TouchableOpacity
             style={styles.box}
             activeOpacity={0.8}
             onPress={() => {
+              dispatch(setType('source'));
               navigation.navigate(screenNames.LOCATIONS);
             }}>
-            <Text style={styles.boxText}>Source</Text>
+            <Text style={styles.boxText}>{source}</Text>
           </TouchableOpacity>
-        </View>
-        <View>
           <TouchableOpacity
             style={styles.box}
             activeOpacity={0.8}
             onPress={() => {
+              dispatch(setType('destination'));
               navigation.navigate(screenNames.LOCATIONS);
             }}>
-            <Text style={styles.boxText}>Destination</Text>
+            <Text style={styles.boxText}>{destination}</Text>
           </TouchableOpacity>
         </View>
+        <TouchableOpacity
+          style={{flex: 0.1}}
+          activeOpacity={0.8}
+          onPress={() => {
+            startSearch();
+          }}>
+          <Image
+            style={{height: 25, width: 25}}
+            source={require('../../../assets/icons/search.png')}
+          />
+        </TouchableOpacity>
       </View>
-      <View style={{flex: 0.75, marginHorizontal: 10, paddingBottom: 60}}>
+      <View style={styles.listView}>
+        <View style={styles.filter}>
+          <TouchableOpacity
+            onPress={() => {
+              setFilterVisible(true);
+            }}>
+            <Image
+              style={{height: 25, width: 25}}
+              source={require('../../../assets/icons/filter.png')}
+            />
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => {
+              setSortVisible(true);
+            }}>
+            <Image
+              style={{height: 25, width: 25}}
+              source={require('../../../assets/icons/sorting.png')}
+            />
+          </TouchableOpacity>
+        </View>
         <FlatList
-          data={data}
-          renderItem={item => renderItem(item)}
-          key={item => item.id}
+          data={flightData}
+          renderItem={item => {
+            return (
+              <ListItem
+                airlineName={item.item.displayData.airlines[0].airlineName}
+                airlineNumber={item.item.displayData.airlines[0].flightNumber}
+                sourceCity={`${item.item.displayData.source.airport.cityName}(${item.item.displayData.source.airport.airportCode})`}
+                departTime={formattedDate(
+                  new Date(item.item.displayData.source.depTime),
+                )}
+                arrivalTime={formattedDate(
+                  new Date(item.item.displayData.destination.arrTime),
+                )}
+                destinationCity={`${item.item.displayData.destination.airport.cityName}(${item.item.displayData.destination.airport.airportCode})`}
+                fare={item.item.fare}
+                onPressed={() => {
+                  dispatch(setSelectedFlightData(item.item));
+                  navigation.navigate(screenNames.FLIGHT_INFO);
+                }}
+              />
+            );
+          }}
+          keyExtractor={(item, index) => index.toString()}
+          ListEmptyComponent={() => {
+            return <Text style={styles.empty}>No Flights Found!</Text>;
+          }}
         />
       </View>
+      <FilterModal
+        visibility={filterVisible}
+        onApply={() => {
+          setFilterVisible(false);
+        }}
+      />
+      <SortModal
+        visibility={sortVisible}
+        onApply={() => {
+          setSortVisible(false);
+        }}
+      />
     </Background>
   );
 };
 
 const styles = StyleSheet.create({
   card: {
-    flex: 0.25,
+    flex: 0.2,
     backgroundColor: colors.PEACOCK_GREEN,
     margin: 10,
-    justifyContent: 'space-evenly',
     borderRadius: 8,
+    flexDirection: 'row',
+    alignItems: 'center',
   },
-  list: {flex: 0.75},
   title: {
     fontSize: 30,
     color: colors.PEACOCK_GREEN,
@@ -125,25 +206,25 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     alignSelf: 'center',
     borderRadius: 5,
+    marginVertical: 3,
   },
   boxText: {color: colors.GRAY, padding: 15},
-  info: {
+  listView: {
+    flex: 0.8,
+    marginHorizontal: 10,
+    paddingBottom: 56,
+  },
+  filter: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginHorizontal: 5,
+  },
+  empty: {
+    color: colors.BLACK,
+    marginTop: 100,
+    alignSelf: 'center',
     fontFamily: 'DMSans-Regular',
-    color: colors.BLACK,
-    fontSize: 14,
-  },
-  infoHeader: {
-    fontFamily: 'DMSans-Bold',
-    color: colors.BLACK,
-    fontSize: 16,
-  },
-  itemView: {
-    borderColor: colors.PEACOCK_GREEN,
-    borderWidth: 2,
-    borderRadius: 8,
-    marginVertical: 5,
-    padding: 10,
-    backgroundColor: 'white',
+    fontSize: 18,
   },
 });
 
