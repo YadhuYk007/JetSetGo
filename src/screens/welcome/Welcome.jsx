@@ -6,6 +6,7 @@ import colors from '../../constants/colors';
 import {setDestination, setSource} from '../../redux/slices/bookingSlice';
 import {useDispatch} from 'react-redux';
 import strings from '../../constants/strings';
+import {setFilter, setSortType} from '../../redux/slices/flightsSlice';
 
 const Welcome = ({navigation}) => {
   const dispatch = useDispatch();
@@ -26,6 +27,8 @@ const Welcome = ({navigation}) => {
           onPressed={() => {
             dispatch(setSource('Source'));
             dispatch(setDestination('Destination'));
+            dispatch(setFilter([]));
+            dispatch(setSortType('init'));
             navigation.navigate('Home');
           }}
         />

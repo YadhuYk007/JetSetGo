@@ -1,5 +1,12 @@
 import React, {useState} from 'react';
-import {Modal, StyleSheet, Text, View} from 'react-native';
+import {
+  Image,
+  Modal,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import colors from '../../constants/colors';
 import PrimaryButton from '../PrimaryButton';
 import RadioForm from 'react-native-simple-radio-button';
@@ -34,6 +41,15 @@ const SortModal = ({visibility, onApply}) => {
         <View style={styles.box}>
           <View style={styles.title}>
             <Text style={styles.bottomTextCollection}>{`Sort`}</Text>
+            <TouchableOpacity
+              onPress={() => {
+                onApply();
+              }}>
+              <Image
+                style={styles.filters}
+                source={require('../../assets/icons/close.png')}
+              />
+            </TouchableOpacity>
           </View>
           <Text style={styles.info}>{`Sort Airlines By Price`}</Text>
           <View style={{marginVertical: 10}}>
@@ -61,7 +77,7 @@ const SortModal = ({visibility, onApply}) => {
 const styles = StyleSheet.create({
   title: {
     flexDirection: 'row',
-    alignSelf: 'flex-start',
+    justifyContent: 'space-between',
   },
   centeredView: {
     backgroundColor: 'rgba(50,50,50,0.5)',
@@ -96,6 +112,7 @@ const styles = StyleSheet.create({
     color: colors.BLACK,
     paddingVertical: 5,
   },
+  filters: {height: 15, width: 15},
 });
 
 export default SortModal;

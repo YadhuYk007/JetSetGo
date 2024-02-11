@@ -71,6 +71,9 @@ const FilterModal = ({visibility, onApply}) => {
                     style={{
                       transform: [{scaleX: 0.7}, {scaleY: 0.7}],
                     }}
+                    onValueChange={() => {
+                      toggleCheckbox(item.id);
+                    }}
                   />
                   <Text style={{color: colors.BLACK}}>{item.name}</Text>
                 </TouchableOpacity>
