@@ -58,7 +58,11 @@ const FlightList = ({onItemPressed, setFilterVisible, onSortVisible}) => {
     const filteredArray = aircrafts.filter(item =>
       filteredNames.includes(item.displayData.airlines[0].airlineName),
     );
-    setFlightData(filteredArray);
+    if (filteredNames.length === 0) {
+      setFlightData(data);
+    } else {
+      setFlightData(filteredArray);
+    }
   };
 
   useEffect(() => {
